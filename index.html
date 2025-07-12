@@ -2,25 +2,89 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>أنا</title>
+  <title>مات الريلوكس</title>
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background-color: white;
+      background-color: #111;
+      color: #00ffe7;
+      font-family: 'Courier New', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Arial', sans-serif;
+      flex-direction: column;
     }
 
     h1 {
-      font-size: 50px;
-      color: #222;
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .counter {
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .ago {
+      margin-top: 10px;
+      font-size: 24px;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
   <h1>مات الريلوكس </h1>
+  <div class="counter" id="counter">Loading...</div>
+  <div class="ago">ago</div>
+
+  <script>
+    // تاريخ إطلاق الموقع (ثابت)
+    const launchDate = new Date("2025-07-12T00:00:00");
+
+    function pluralize(value, singular) {
+      return value === 1 ? singular : singular + "s";
+    }
+
+    function updateCounter() {
+      const now = new Date();
+      let diff = Math.floor((now - launchDate) / 1000);
+
+      const secondsInMinute = 60;
+      const secondsInHour = 3600;
+      const secondsInDay = 86400;
+      const secondsInMonth = 2592000; // 30 يوم
+      const secondsInYear = 31536000; // 365 يوم
+
+      const years = Math.floor(diff / secondsInYear);
+      diff %= secondsInYear;
+
+      const months = Math.floor(diff / secondsInMonth);
+      diff %= secondsInMonth;
+
+      const days = Math.floor(diff / secondsInDay);
+      diff %= secondsInDay;
+
+      const hours = Math.floor(diff / secondsInHour);
+      diff %= secondsInHour;
+
+      const minutes = Math.floor(diff / secondsInMinute);
+      const seconds = diff % secondsInMinute;
+
+      let result = "";
+
+      if (years > 0) result += `${years} ${pluralize(years, "Year")} / `;
+      if (months > 0 || years > 0) result += `${months} ${pluralize(months, "Month")} / `;
+      if (days > 0 || months > 0 || years > 0) result += `${days} ${pluralize(days, "Day")} / `;
+      if (hours > 0 || days > 0 || months > 0 || years > 0) result += `${hours} ${pluralize(hours, "Hour")} / `;
+      if (minutes > 0 || hours > 0 || days > 0 || months > 0 || years > 0) result += `${minutes} ${pluralize(minutes, "Minute")} / `;
+      result += `${seconds} ${pluralize(seconds, "Second")}`;
+
+      document.getElementById("counter").textContent = result;
+    }
+
+    setInterval(updateCounter, 1000);
+    updateCounter();
+  </script>
 </body>
 </html>
