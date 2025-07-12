@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>مات الريلوكس للأسف</title>
   <style>
     body {
@@ -14,6 +14,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      text-align: center;
     }
 
     h1 {
@@ -23,7 +24,6 @@
 
     .counter {
       font-size: 28px;
-      text-align: center;
     }
 
     .ago {
@@ -34,16 +34,16 @@
   </style>
 </head>
 <body>
-  <h1>مات الريلوكس</h1>
+  <h1>مات الريلوكس </h1>
   <div class="counter" id="counter">Loading...</div>
   <div class="ago">ago</div>
 
   <script>
-    // اجعل وقت البدء هو لحظة فتح الموقع
-    const launchDate = new Date();
+    // 🕒 تاريخ الإطلاق: الآن (12 يوليو 2025 الساعة 19:00 UTC)
+    const launchDate = new Date("2025-07-12T19:39:00Z");
 
-    function pluralize(value, singular) {
-      return value === 1 ? singular : singular + "s";
+    function pluralize(value, word) {
+      return ${value} ${word}${value !== 1 ? "s" : ""};
     }
 
     function updateCounter() {
@@ -71,16 +71,16 @@
       const minutes = Math.floor(diff / secondsInMinute);
       const seconds = diff % secondsInMinute;
 
-      let result = "";
+      let output = "";
 
-      if (years > 0) result += `${years} ${pluralize(years, "Year")} / `;
-      if (months > 0 || years > 0) result += `${months} ${pluralize(months, "Month")} / `;
-      if (days > 0 || months > 0 || years > 0) result += `${days} ${pluralize(days, "Day")} / `;
-      if (hours > 0 || days > 0 || months > 0 || years > 0) result += `${hours} ${pluralize(hours, "Hour")} / `;
-      if (minutes > 0 || hours > 0 || days > 0 || months > 0 || years > 0) result += `${minutes} ${pluralize(minutes, "Minute")} / `;
-      result += ${seconds} ${pluralize(seconds, "Second")};
+      if (years > 0) output += pluralize(years, "Year") + " / ";
+      if (months > 0 || years > 0) output += pluralize(months, "Month") + " / ";
+      if (days > 0 || months > 0 || years > 0) output += pluralize(days, "Day") + " / ";
+      if (hours > 0 || days > 0 || months > 0 || years > 0) output += pluralize(hours, "Hour") + " / ";
+      if (minutes > 0 || hours > 0 || days > 0 || months > 0 || years > 0) output += pluralize(minutes, "Minute") + " / ";
+      output += pluralize(seconds, "Second");
 
-      document.getElementById("counter").textContent = result;
+      document.getElementById("counter").textContent = output;
     }
 
     setInterval(updateCounter, 1000);
