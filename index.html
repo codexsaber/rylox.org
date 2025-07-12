@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>مات الريلوكس</title>
+  <title>مات الريلوكس للأسف</title>
   <style>
     body {
       margin: 0;
@@ -34,13 +34,13 @@
   </style>
 </head>
 <body>
-  <h1>مات الريلوكس </h1>
+  <h1>مات الريلوكس</h1>
   <div class="counter" id="counter">Loading...</div>
   <div class="ago">ago</div>
 
   <script>
-    // تاريخ إطلاق الموقع (ثابت)
-    const launchDate = new Date("2025-07-12T00:00:00");
+    // اجعل وقت البدء هو لحظة فتح الموقع
+    const launchDate = new Date();
 
     function pluralize(value, singular) {
       return value === 1 ? singular : singular + "s";
@@ -53,8 +53,8 @@
       const secondsInMinute = 60;
       const secondsInHour = 3600;
       const secondsInDay = 86400;
-      const secondsInMonth = 2592000; // 30 يوم
-      const secondsInYear = 31536000; // 365 يوم
+      const secondsInMonth = 2592000;
+      const secondsInYear = 31536000;
 
       const years = Math.floor(diff / secondsInYear);
       diff %= secondsInYear;
@@ -78,7 +78,7 @@
       if (days > 0 || months > 0 || years > 0) result += `${days} ${pluralize(days, "Day")} / `;
       if (hours > 0 || days > 0 || months > 0 || years > 0) result += `${hours} ${pluralize(hours, "Hour")} / `;
       if (minutes > 0 || hours > 0 || days > 0 || months > 0 || years > 0) result += `${minutes} ${pluralize(minutes, "Minute")} / `;
-      result += `${seconds} ${pluralize(seconds, "Second")}`;
+      result += ${seconds} ${pluralize(seconds, "Second")};
 
       document.getElementById("counter").textContent = result;
     }
