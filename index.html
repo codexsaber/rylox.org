@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <title>الريلوكس</title>
+  <meta charset="UTF-8">
+  <title>Rylox</title>
   <style>
     body {
       margin: 0;
@@ -14,7 +14,6 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      text-align: center;
     }
 
     h1 {
@@ -24,9 +23,10 @@
 
     .counter {
       font-size: 28px;
+      text-align: center;
     }
 
-    .label {
+    .ago {
       margin-top: 10px;
       font-size: 24px;
       color: #aaa;
@@ -34,23 +34,27 @@
   </style>
 </head>
 <body>
-  <h1 id="title">العد التنازلي للريلوكس</h1>
+  <h1>RYLOX</h1>
   <div class="counter" id="counter">Loading...</div>
-  <div class="label" id="label">متبقي</div>
+  <div class="ago">ago</div>
 
   <script>
-    const launchDate = new Date("2025-07-12T19:39:00Z");
+    // تاريخ إطلاق الموقع (ثابت)
+    const launchDate = new Date("2025-07-12T00:00:00");
 
-    function pluralize(value, word) {
-      return ${value} ${word}${value !== 1 ? "s" : ""};
+    function pluralize(value, singular) {
+      return value === 1 ? singular : singular + "s";
     }
 
-    function formatTime(diff) {
+    function updateCounter() {
+      const now = new Date();
+      let diff = Math.floor((now - launchDate) / 1000);
+
       const secondsInMinute = 60;
       const secondsInHour = 3600;
       const secondsInDay = 86400;
-      const secondsInMonth = 2592000;
-      const secondsInYear = 31536000;
+      const secondsInMonth = 2592000; // 30 يوم
+      const secondsInYear = 31536000; // 365 يوم
 
       const years = Math.floor(diff / secondsInYear);
       diff %= secondsInYear;
@@ -67,37 +71,16 @@
       const minutes = Math.floor(diff / secondsInMinute);
       const seconds = diff % secondsInMinute;
 
-      let output = "";
-      if (years > 0) output += pluralize(years, "Year") + " / ";
-      if (months > 0 || years > 0) output += pluralize(months, "Month") + " / ";
-      if (days > 0 || months > 0 || years > 0) output += pluralize(days, "Day") + " / ";
-      if (hours > 0 || days > 0 || months > 0 || years > 0) output += pluralize(hours, "Hour") + " / ";
-      if (minutes > 0 || hours > 0 || days > 0 || months > 0 || years > 0) output += pluralize(minutes, "Minute") + " / ";
-      output += pluralize(seconds, "Second");
+      let result = "";
 
-      return output;
-    }
+      if (years > 0) result += `${years} ${pluralize(years, "Year")} / `;
+      if (months > 0 || years > 0) result += `${months} ${pluralize(months, "Month")} / `;
+      if (days > 0 || months > 0 || years > 0) result += `${days} ${pluralize(days, "Day")} / `;
+      if (hours > 0 || days > 0 || months > 0 || years > 0) result += `${hours} ${pluralize(hours, "Hour")} / `;
+      if (minutes > 0 || hours > 0 || days > 0 || months > 0 || years > 0) result += `${minutes} ${pluralize(minutes, "Minute")} / `;
+      result += `${seconds} ${pluralize(seconds, "Second")}`;
 
-    function updateCounter() {
-      const now = new Date();
-      const diffSeconds = Math.floor((launchDate - now) / 1000);
-
-      const counter = document.getElementById("counter");
-      const label = document.getElementById("label");
-      const title = document.getElementById("title");
-
-      if (diffSeconds > 0) {
-        // قبل موت الريلوكس
-        counter.textContent = formatTime(diffSeconds);
-        label.textContent = "متبقي";
-        title.textContent = "العد التنازلي للريلوكس";
-      } else {
-        // بعد موته
-        const passedSeconds = Math.abs(diffSeconds);
-        counter.textContent = formatTime(passedSeconds);
-        label.textContent = "منذ موته";
-        title.textContent = "مات الريلوكس للأسف";
-      }
+      document.getElementById("counter").textContent = result;
     }
 
     setInterval(updateCounter, 1000);
