@@ -2,89 +2,661 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>Rylox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rylox Memorial - In Eternal Memory</title>
   <style>
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Pirata+One&display=swap');
+
+    * {
       margin: 0;
-      height: 100vh;
-      background-color: #111;
-      color: #00ffe7;
-      font-family: 'Courier New', monospace;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(25, 25, 112, 0.15) 0%, transparent 60%),
+        linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+      color: #d4af37;
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+      position: relative;
+      animation: atmosphereShift 120s linear infinite;
+    }
+
+    @keyframes atmosphereShift {
+      0% { filter: brightness(0.9) hue-rotate(0deg); }
+      50% { filter: brightness(1.1) hue-rotate(10deg); }
+      100% { filter: brightness(0.9) hue-rotate(0deg); }
+    }
+
+    /* Optimized Starfield */
+    .starfield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    .star.bright {
+      background: rgba(212, 175, 55, 0.9);
+      box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
+      animation: brightTwinkle 4s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes brightTwinkle {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    /* Floating elements - reduced for performance */
+    .floating-element {
+      position: absolute;
+      pointer-events: none;
+      z-index: 2;
+      font-size: 30px;
+      animation: floatGently 20s infinite linear;
+      opacity: 0.4;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    }
+
+    @keyframes floatGently {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.2; }
+      100% {
+        transform: translateY(100vh) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    /* Memorial container */
+    .memorial-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      min-height: 100vh;
+      z-index: 10;
+      position: relative;
+      padding: 15px;
     }
 
-    h1 {
-      font-size: 60px;
+    .memorial-frame {
+      background: 
+        linear-gradient(45deg, rgba(212, 175, 55, 0.12), transparent, rgba(212, 175, 55, 0.12)),
+        rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(15px);
+      border: 3px solid;
+      border-image: linear-gradient(45deg, #d4af37, #b8860b, #800080, #d4af37) 1;
+      border-radius: 20px;
+      padding: 40px 30px;
+      position: relative;
+      max-width: 850px;
+      width: 100%;
+      box-shadow: 
+        0 0 40px rgba(212, 175, 55, 0.3),
+        0 0 80px rgba(128, 0, 128, 0.15);
+      animation: frameGlow 8s ease-in-out infinite, fadeIn 1.5s ease-out;
+    }
+
+    @keyframes frameGlow {
+      0%, 100% { 
+        box-shadow: 0 0 40px rgba(212, 175, 55, 0.3), 0 0 80px rgba(128, 0, 128, 0.15);
+      }
+      50% { 
+        box-shadow: 0 0 60px rgba(212, 175, 55, 0.5), 0 0 100px rgba(128, 0, 128, 0.25);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Header section */
+    .header-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .main-title {
+      font-family: 'Pirata One', cursive;
+      font-size: clamp(32px, 8vw, 70px);
+      font-weight: 700;
+      background: linear-gradient(45deg, #d4af37, #ffd700, #b8860b, #d4af37);
+      background-size: 300% 300%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: goldShimmer 5s ease-in-out infinite;
+      letter-spacing: clamp(2px, 1.5vw, 6px);
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+    }
+
+    @keyframes goldShimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 4vw, 24px);
+      font-style: italic;
+      color: #c0c0c0;
       margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
+      letter-spacing: 1px;
     }
 
-    .counter {
-      font-size: 28px;
+    .memorial-message {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #8b7355;
+      font-style: italic;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px rgba(139, 115, 85, 0.4);
+      line-height: 1.4;
+      padding: 0 10px;
+    }
+
+    .crown-symbol {
+      font-size: clamp(35px, 8vw, 50px);
+      color: #d4af37;
+      animation: crownFloat 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6));
+      margin: 15px 0;
+      will-change: transform;
+      transform-origin: center;
+    }
+
+    @keyframes crownFloat {
+      0%, 100% { 
+        transform: translateY(0px) scale(1);
+        text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+      }
+      50% { 
+        transform: translateY(-5px) scale(1.02);
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.7);
+      }
+    }
+
+    /* Timer circles */
+    .timer-section {
+      display: flex;
+      justify-content: center;
+      gap: clamp(10px, 3vw, 25px);
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .timer-circle {
+      width: clamp(90px, 15vw, 120px);
+      height: clamp(90px, 15vw, 120px);
+      border: 2px solid #d4af37;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: 
+        radial-gradient(circle, rgba(212, 175, 55, 0.08), transparent),
+        rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      position: relative;
+      animation: circleGlow 5s ease-in-out infinite;
+      transition: transform 0.2s ease;
+    }
+
+    .timer-circle:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes circleGlow {
+      0%, 100% { border-color: #d4af37; }
+      50% { border-color: #ffd700; }
+    }
+
+    .timer-value {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(18px, 4vw, 26px);
+      font-weight: 600;
+      color: #d4af37;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+      animation: valueGlow 2s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    @keyframes valueGlow {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .timer-label {
+      font-size: clamp(10px, 2.5vw, 14px);
+      color: #c0c0c0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+      text-shadow: 0 0 6px rgba(192, 192, 192, 0.3);
+    }
+
+    /* Progress section */
+    .progress-section {
+      margin: 30px 0;
       text-align: center;
     }
 
-    .ago {
-      margin-top: 10px;
-      font-size: 24px;
-      color: #aaa;
+    .progress-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #c0c0c0;
+      margin-bottom: 15px;
+      font-style: italic;
+      text-shadow: 0 0 8px rgba(192, 192, 192, 0.3);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid #d4af37;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #8b4513, #b8860b, #d4af37, #ffd700);
+      background-size: 200% 100%;
+      animation: progressShine 4s ease-in-out infinite;
+      border-radius: 12px;
+      width: 0%;
+      transition: width 1s ease-out;
+    }
+
+    @keyframes progressShine {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .progress-percentage {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      font-family: 'Cinzel', serif;
+      font-size: clamp(10px, 2.5vw, 12px);
+      color: #d4af37;
+      font-weight: 600;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Info section */
+    .info-section {
+      text-align: center;
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      border: 2px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .info-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(14px, 3vw, 18px);
+      color: #c0c0c0;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .info-value {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(16px, 3.5vw, 20px);
+      color: #d4af37;
+      font-weight: 600;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Enhanced Mobile Responsive design */
+    @media (max-width: 768px) {
+      .memorial-container {
+        padding: 10px;
+      }
+      
+      .memorial-frame {
+        padding: 25px 20px;
+        border-radius: 15px;
+      }
+      
+      .timer-section {
+        gap: 12px;
+        margin: 25px 0;
+      }
+      
+      .header-section {
+        margin-bottom: 25px;
+      }
+      
+      .progress-section {
+        margin: 25px 0;
+      }
+      
+      .info-section {
+        margin-top: 20px;
+        padding: 15px;
+      }
+
+      .floating-element {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        overflow-x: hidden;
+      }
+      
+      .memorial-container {
+        padding: 8px;
+        align-items: flex-start;
+        padding-top: 20px;
+      }
+      
+      .memorial-frame {
+        padding: 20px 15px;
+        border-radius: 12px;
+        min-height: auto;
+      }
+      
+      .timer-section {
+        gap: 8px;
+        margin: 20px 0;
+      }
+      
+      .timer-circle {
+        min-width: 80px;
+        min-height: 80px;
+      }
+      
+      .header-section {
+        margin-bottom: 20px;
+      }
+      
+      .memorial-message {
+        padding: 0 5px;
+      }
+      
+      .progress-section {
+        margin: 20px 0;
+      }
+      
+      .info-section {
+        margin-top: 15px;
+        padding: 12px;
+      }
+
+      .floating-element {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .memorial-frame {
+        padding: 15px 10px;
+      }
+      
+      .timer-section {
+        gap: 6px;
+      }
+      
+      .timer-circle {
+        min-width: 70px;
+        min-height: 70px;
+      }
+    }
+
+    /* Landscape phone orientation */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .memorial-container {
+        padding: 5px;
+        align-items: flex-start;
+        padding-top: 10px;
+      }
+      
+      .memorial-frame {
+        padding: 15px 20px;
+      }
+      
+      .timer-section {
+        margin: 15px 0;
+        gap: 8px;
+      }
+      
+      .timer-circle {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .header-section {
+        margin-bottom: 15px;
+      }
+      
+      .crown-symbol {
+        margin: 8px 0;
+      }
+      
+      .progress-section, .info-section {
+        margin: 15px 0;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>RYLOX</h1>
-  <div class="counter" id="counter">Loading...</div>
-  <div class="ago">ago</div>
+  <!-- Optimized Starfield -->
+  <div class="starfield" id="starfield"></div>
+
+  <!-- Floating elements -->
+  <div id="floatingElements"></div>
+
+  <!-- Main memorial -->
+  <div class="memorial-container">
+    <div class="memorial-frame">
+      <div class="header-section">
+        <h1 class="main-title">RYLOX</h1>
+        <div class="subtitle">في الذكرى الأبدية • In Eternal Memory</div>
+        <div class="memorial-message">"هنا يرقد الملك الذي أضاء عوالم كثيرة بروحه العظيمة"</div>
+        <div class="crown-symbol">👑</div>
+      </div>
+
+      <div class="timer-section">
+        <div class="timer-circle">
+          <div class="timer-value" id="years">0</div>
+          <div class="timer-label">سنوات</div>
+        </div>
+        <div class="timer-circle">
+          <div class="timer-value" id="days">0</div>
+          <div class="timer-label">أيام</div>
+        </div>
+        <div class="timer-circle">
+          <div class="timer-value" id="hours">0</div>
+          <div class="timer-label">ساعات</div>
+        </div>
+        <div class="timer-circle">
+          <div class="timer-value" id="minutes">0</div>
+          <div class="timer-label">دقائق</div>
+        </div>
+        <div class="timer-circle">
+          <div class="timer-value" id="seconds">0</div>
+          <div class="timer-label">ثواني</div>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-title">رحلة الخلود • The Eternal Journey</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+          <div class="progress-percentage" id="progressPercentage">0%</div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-label">لحظة الرحيل • The Moment of Departure</div>
+        <div class="info-value" id="startTime">Loading...</div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // تاريخ إطلاق الموقع (ثابت)
-    const launchDate = new Date("2025-07-12T00:00:00");
-
-    function pluralize(value, singular) {
-      return value === 1 ? singular : singular + "s";
+    // Timer starts from fixed date - 12:44 PM today
+    const now = new Date();
+    const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 44, 0);
+    
+    // Reduced floating elements for better performance
+    const chessPieces = ['👑', '⚔️', '🏰', '💫', '✨'];
+    
+    // Initialize everything
+    function init() {
+      createStarfield();
+      createFloatingElements();
+      updateStartTimeDisplay();
+      startTimer();
     }
 
-    function updateCounter() {
+    // Create optimized starfield (reduced count for mobile)
+    function createStarfield() {
+      const starfield = document.getElementById('starfield');
+      const starCount = window.innerWidth < 768 ? 40 : 80; // Less stars on mobile
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        if (Math.random() > 0.8) {
+          star.className = 'star bright';
+        } else {
+          star.className = 'star';
+        }
+        
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starfield.appendChild(star);
+      }
+    }
+
+    // Create fewer floating elements to reduce lag
+    function createFloatingElements() {
+      const container = document.getElementById('floatingElements');
+      const isMobile = window.innerWidth < 768;
+      
+      function createPiece() {
+        const piece = document.createElement('div');
+        piece.className = 'floating-element';
+        piece.textContent = chessPieces[Math.floor(Math.random() * chessPieces.length)];
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.color = Math.random() > 0.5 ? '#d4af37' : '#c0c0c0';
+        container.appendChild(piece);
+        
+        // Remove after animation
+        setTimeout(() => {
+          if (container.contains(piece)) {
+            container.removeChild(piece);
+          }
+        }, 20000);
+      }
+      
+      // Create pieces less frequently on mobile
+      const interval = isMobile ? 12000 : 8000;
+      setInterval(createPiece, interval);
+      
+      // Initial pieces
+      const initialCount = isMobile ? 2 : 3;
+      for (let i = 0; i < initialCount; i++) {
+        setTimeout(createPiece, i * 2000);
+      }
+    }
+
+    // Start the timer
+    function startTimer() {
+      setInterval(updateTimer, 1000);
+      updateTimer(); // Initial update
+    }
+
+    // Update timer display
+    function updateTimer() {
       const now = new Date();
-      let diff = Math.floor((now - launchDate) / 1000);
-
-      const secondsInMinute = 60;
-      const secondsInHour = 3600;
-      const secondsInDay = 86400;
-      const secondsInMonth = 2592000; // 30 يوم
-      const secondsInYear = 31536000; // 365 يوم
-
-      const years = Math.floor(diff / secondsInYear);
-      diff %= secondsInYear;
-
-      const months = Math.floor(diff / secondsInMonth);
-      diff %= secondsInMonth;
-
-      const days = Math.floor(diff / secondsInDay);
-      diff %= secondsInDay;
-
-      const hours = Math.floor(diff / secondsInHour);
-      diff %= secondsInHour;
-
-      const minutes = Math.floor(diff / secondsInMinute);
-      const seconds = diff % secondsInMinute;
-
-      let result = "";
-
-      if (years > 0) result += `${years} ${pluralize(years, "Year")} / `;
-      if (months > 0 || years > 0) result += `${months} ${pluralize(months, "Month")} / `;
-      if (days > 0 || months > 0 || years > 0) result += `${days} ${pluralize(days, "Day")} / `;
-      if (hours > 0 || days > 0 || months > 0 || years > 0) result += `${hours} ${pluralize(hours, "Hour")} / `;
-      if (minutes > 0 || hours > 0 || days > 0 || months > 0 || years > 0) result += `${minutes} ${pluralize(minutes, "Minute")} / `;
-      result += `${seconds} ${pluralize(seconds, "Second")}`;
-
-      document.getElementById("counter").textContent = result;
+      const timeDiff = Math.floor((now - startTime) / 1000); // Total seconds
+      
+      // Calculate time units
+      const years = Math.floor(timeDiff / (365.25 * 24 * 3600));
+      const remainingAfterYears = timeDiff % (365.25 * 24 * 3600);
+      const days = Math.floor(remainingAfterYears / (24 * 3600));
+      const remainingAfterDays = remainingAfterYears % (24 * 3600);
+      const hours = Math.floor(remainingAfterDays / 3600);
+      const remainingAfterHours = remainingAfterDays % 3600;
+      const minutes = Math.floor(remainingAfterHours / 60);
+      const seconds = remainingAfterHours % 60;
+      
+      // Update display
+      document.getElementById('years').textContent = years;
+      document.getElementById('days').textContent = days;
+      document.getElementById('hours').textContent = hours;
+      document.getElementById('minutes').textContent = minutes;
+      document.getElementById('seconds').textContent = seconds;
+      
+      // Update progress (yearly cycle)
+      const yearProgress = ((remainingAfterYears / (365.25 * 24 * 3600)) * 100);
+      document.getElementById('progressBar').style.width = yearProgress + '%';
+      document.getElementById('progressPercentage').textContent = yearProgress.toFixed(1) + '%';
     }
 
-    setInterval(updateCounter, 1000);
-    updateCounter();
+    // Update start time display with month name and AM/PM
+    function updateStartTimeDisplay() {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      
+      const day = startTime.getDate();
+      const month = months[startTime.getMonth()];
+      const year = startTime.getFullYear();
+      
+      let hours = startTime.getHours();
+      const minutes = startTime.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      
+      hours = hours % 12;
+      hours = hours ? hours : 12; // 0 should be 12
+      
+      const formattedDate = `${day} ${month} ${year} - 12:44 PM`;
+      document.getElementById('startTime').textContent = formattedDate;
+    }
+
+    // Initialize when page loads
+    window.addEventListener('load', init);
   </script>
 </body>
 </html>
